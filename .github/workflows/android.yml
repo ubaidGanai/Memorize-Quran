@@ -1,40 +1,14 @@
-name: Build Android APK
+name: Test Workflow
 
 on:
   push:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: List files
-        run: ls -la
-
-      - name: Unzip
-        run: unzip quranApp.zip
-
-      - name: Show folders
-        run: ls -la
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install Cordova
-        run: npm install -g cordova
-
-      - name: Setup Android
-        uses: android-actions/setup-android@v3
-
-      - name: Build
-        run: |
-          cd quranApp
-          cordova platform add android
+      - name: Say Hello
+        run: echo "Hello, workflow is working"          cordova platform add android
           cordova build android
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
