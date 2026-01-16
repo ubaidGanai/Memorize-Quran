@@ -8,26 +8,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Unzip project
-        run: |
-          unzip quranApp.zip
-          ls -la
+      - name: List files
+        run: ls -la
 
-      - name: Find Cordova project
-        run: |
-          if [ -f config.xml ]; then
-            echo "Project in root"
-            echo "APP_DIR=." >> $GITHUB_ENV
-          else
-            DIR=$(find . -name config.xml | head -n 1 | xargs dirname)
-            echo "Found project in $DIR"
-            echo "APP_DIR=$DIR" >> $GITHUB_ENV
-          fi
+      - name: Unzip
+        run: unzip quranApp.zip
 
-      - name: Setup Node.js
+      - name: Show folders
+        run: ls -la
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -35,6 +28,14 @@ jobs:
       - name: Install Cordova
         run: npm install -g cordova
 
+      - name: Setup Android
+        uses: android-actions/setup-android@v3
+
+      - name: Build
+        run: |
+          cd quranApp
+          cordova platform add android
+          cordova build android
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
